@@ -4,7 +4,7 @@ import plotly.express as px
 import geopandas as gpd
 
 # data
-data = pd.read_csv('/Users/clairefeltenpath/Desktop/RDcomtrack_v4.csv')
+data = pd.read_csv('RDcomtrack_v4.csv')
 
 # Convert data to DataFrame
 df = pd.DataFrame(data)
