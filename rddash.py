@@ -2,7 +2,16 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import geopandas as gpd
+import streamlit.components.v1 as components
 
+# Set page config
+st.set_page_config(layout="wide")
+
+# Embed option
+embed_code = """
+<a href="https://share.streamlit.io/" target="_blank" style="position: absolute; top: 10px; right: 10px; background-color: #008CBA; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none;">Embed</a>
+"""
+st.markdown(embed_code, unsafe_allow_html=True)
 
 # data
 data = pd.read_csv('RDcomtrack_v4.csv')
