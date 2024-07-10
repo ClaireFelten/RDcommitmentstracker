@@ -27,7 +27,7 @@ st.markdown("""
         justify-content: space-between;
         align-items: center;
         <iframe
-            src="https://30days.streamlit.app?embed=true"
+            src="https://africardcommitmentstracker.streamlit.app/?embed=true"
             style="height: 450px; width: 100%;"
         ></iframe>
         }
