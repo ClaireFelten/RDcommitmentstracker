@@ -3,12 +3,41 @@ import pandas as pd
 import plotly.express as px
 import geopandas as gpd
 import streamlit.components.v1 as components
+import os
 
+# Logging function
+def log_message(message):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{message}\n")
+try:
+    # Set page config
+    st.set_page_config(layout="wide")
+    log_message("Page config set successfully.")
+
+    # Embed option
+    embed_code = """
+    <a href="https://share.streamlit.io/" target="_blank" style="position: absolute; top: 10px; right: 10px; background-color: #008CBA; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none;">Embed</a>
+    """
+    st.markdown(embed_code, unsafe_allow_html=True)
+    log_message("Embed code added successfully.")
+
+    # data
+    csv_path = 'RDcomtrack_v4.csv'
+    if not os.path.exists(csv_path):
+        log_message(f"CSV file not found: {csv_path}")
+        st.error(f"CSV file not found: {csv_path}")
+    else:
+        data = pd.read_csv(csv_path)
+        log_message("CSV file loaded successfully.")
+except Exception as e:
+    log_message(f"An error occurred: {e}")
+    st.error("An unexpected error occurred. Please check the log file for more details.")
+          
 # Set page config
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 
 # data
-data = pd.read_csv('RDcomtrack_v4.csv')
+#data = pd.read_csv('RDcomtrack_v4.csv')
 
 # Convert data to DataFrame
 df = pd.DataFrame(data)
