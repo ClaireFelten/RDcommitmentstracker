@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import geopandas as gpd
+/?embed=true&embed_options=show_toolbar
 
 # data
 data = pd.read_csv('RDcomtrack_v4.csv')
