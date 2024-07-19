@@ -269,21 +269,24 @@ with left_col:
 
 with right_col:
     with st.container():
-        top_right_col1, top_right_col2 = st.columns(2)
-        with top_right_col1:
-            st.markdown(f"<div class='under-titles'> COMMITMENT TYPES: </div>", unsafe_allow_html=True)
-            st.plotly_chart(fig_type, use_container_width=True, container_props={"className": "chart-container"})
-        with top_right_col2:
-            st.markdown(f"<div class='under-titles'> COMMITMENT THEMES: </div>", unsafe_allow_html=True)
-            st.plotly_chart(fig_theme, use_container_width=True, container_props={"className": "chart-container"})
-    
-    with st.container():
-        bottom_right_col1, bottom_right_col2 = st.columns(2)
-        with bottom_right_col1:
-            st.markdown(f"<div class='under-titles'> FUNDING COMMITTED: </div>", unsafe_allow_html=True)
-            st.plotly_chart(fig_money, use_container_width=True, container_props={"className": "chart-container"})
-        with bottom_right_col2:
-            st.markdown(f"<div class='under-titles'> NUMBER OF COMMITMENTS LOGGED: </div><br><div class='big-number'>{total_commitments}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='under-titles'> NUMBER OF COMMITMENTS LOGGED: </div><br><div class='big-number'>{total_commitments}</div>", unsafe_allow_html=True)
+
+
+left_col2, right_col2 = st.columns([1, 1])
+
+with left_col2:
+    st.markdown(f"<div class='under-titles'> COMMITMENT TYPES: </div>", unsafe_allow_html=True)
+    st.plotly_chart(fig_type, use_container_width=True, container_props={"className": "chart-container"})
+        
+with right_col2: 
+    st.markdown(f"<div class='under-titles'> COMMITMENT THEMES: </div>", unsafe_allow_html=True)
+    st.plotly_chart(fig_theme, use_container_width=True, container_props={"className": "chart-container"})
+
+left_col3, right_col3 = st.columns([1, 1])
+ 
+#with right_col3:
+#    st.markdown(f"<div class='under-titles'> FUNDING COMMITTED: </div>", unsafe_allow_html=True)
+#    st.plotly_chart(fig_money, use_container_width=True, container_props={"className": "chart-container"})
 
 # Divider
 st.markdown("---")
