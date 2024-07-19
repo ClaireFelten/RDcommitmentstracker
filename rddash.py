@@ -2,13 +2,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import geopandas as gpd
-import streamlit.components.v1 as components
 import os
 
 # Logging function
 def log_message(message):
     with open("log.txt", "a") as log_file:
         log_file.write(f"{message}\n")
+
 try:
     # Set page config
     st.set_page_config(layout="wide")
@@ -32,25 +32,104 @@ try:
 except Exception as e:
     log_message(f"An error occurred: {e}")
     st.error("An unexpected error occurred. Please check the log file for more details.")
-          
-# Set page config
-#st.set_page_config(layout="wide")
-
-# data
-#data = pd.read_csv('RDcomtrack_v4.csv')
 
 # Convert data to DataFrame
 df = pd.DataFrame(data)
+df['USD_display'] = df['amntUSD'].apply(lambda x: f"{x/1000000000:.2f} billion USD" if x > 1000000000 else (
+                                        f"{x/1000000:.2f} million USD" if x > 1000000 else (
+                                        f"{x/1000:.2f} thousand USD" if x > 1000 else "(NOT FINANCIAL COMMITMENT)")))
+total_money_pledged = df['amntUSD'].sum()
+df['header'] = "DETAILS +"
 
-# Embed option
-embed_code = """
-<a href="https://share.streamlit.io/" target="_blank" style="position: absolute; top: 10px; right: 10px; background-color: #008CBA; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none;">Embed</a>
-"""
-st.markdown(embed_code, unsafe_allow_html=True)
-
-# Custom CSS for styling
+# Custom CSS and JavaScript for styling
 st.markdown("""
-    <style>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Aptos:wght@400;600&display=swap');
+    
+    body {
+        font-family: 'Aptos', sans-serif;
+        background-color: #f7f7f7;
+    }
+    .commitment-card {
+        background-color: #ee6c4d;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    .commitment-header {
+        display: flex;
+        background-color: #3d5a80;
+        color: white;
+        padding: 15px;
+    }
+    .commitment-header-left {
+        flex: 1;
+        background-color: #98c1d9;
+        margin-right: 5px;
+        padding: 10px;
+    }
+    .commitment-header-right {
+        flex: 2;
+        padding: 10px;
+    }
+    .commitment-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .commitment-date {
+        font-size: 0.9em;
+        letter-spacing: 3px; /* wide letter spacing */
+        text-transform: uppercase; /* all caps text */
+    }
+    .commitment-maker-type {
+        font-size: 0.9em;
+        letter-spacing: 3px; /* wide letter spacing */
+        text-transform: uppercase; /* all caps text */
+    }
+    .under-titles {
+        font-size: 0.9em;
+        letter-spacing: 3px; /* wide letter spacing */
+        text-transform: uppercase; /* all caps text */
+    }
+    .commitment-info {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 15px;
+        background-color: #f8f9fa;
+    }
+    .info-item {
+        flex: 1 0 50%;
+        margin-bottom: 10px;
+    }
+    .info-subitem {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .info-icon {
+        margin-right: 10px;
+        color: #ee6c4d;
+    }
+    .details-header {
+        background-color: #ee6c4d;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+    .details-content {
+        padding: 15px;
+        background-color: #f8f9fa;
+    }
+    .submit-update {
+        background-color: #ee6c4d;
+        color: white;
+        padding: 10px 15px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: bold;
+    }
     .streamlit-expanderHeader {
         background-color: #2c3e50 !important;  /* dark blue-gray color */
         color: white !important;  /* white writing */
@@ -62,46 +141,23 @@ st.markdown("""
         display: flex;
         justify-content: space-between;
         align-items: center;
-        }
-    .streamlit-expanderHeader::after {
-        content: '▼';  /* clear down arrow */
-        font-size: 18px;
-        color: white;
-        margin-left: auto;
-        }
-        
-.streamlit-expanderContent {
-    background-color: #FAF9F6 !important;  /* off white color */
-    color: #2c3e50 !important;  /* dark blue-gray text */
-    border-radius: 5px !important;
-    padding: 15px !important;
-    margin-bottom: 10px !important;
-}
-    .commitment-details {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 10px;
-        font-size: 16px;
+        }   
+    .line {
+        width: 75%;
+        height: 2px; /* Adjust the height as needed */
+        background-color: white;
+        font-weight: bold;
     }
-    .commitment-details strong {
-        color: #ec7063;
+    .big-number {
+        font-size: 6em; /* 3x larger font size */
+        text-align: center;
     }
-    .commitment-title {
-        font-size: 22px !important;
-        font-weight: bold !important;
-        color: #ec7063 !important;  /* soft red title */
-        margin-bottom: 5px !important;
+    .chart-container {
+        padding: 10px !important; /* Remove padding around the charts */
+        margin: 10px !important; /* Remove margin around the charts */
     }
-    .commitment-entity {
-        font-size: 18px !important;
-        color: #34495e !important;
-        margin-bottom: 10px !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+</style>
+""", unsafe_allow_html=True)
 
 # Streamlit app
 st.title("R&D Commitments Tracker")
@@ -144,12 +200,9 @@ st.sidebar.divider()
 st.sidebar.header(f"Number of commitments: {len(filtered_df)}")
 
 # Pie charts for commitments
-
-# Count the occurrences of each type and theme in the filtered dataframe
 type_counts = [filtered_df['type'].str.contains(t, case=False, na=False).sum() for t in typelist]
 theme_counts = [filtered_df['themes'].str.contains(t, case=False, na=False).sum() for t in themelist]
 
-# Create DataFrames for plotting
 type_counts_df = pd.DataFrame({'Type': typelist, 'Number of commitments': type_counts})
 theme_counts_df = pd.DataFrame({'Theme': themelist, 'Number of commitments': theme_counts})
 
@@ -158,7 +211,6 @@ world = gpd.read_file(url)
 
 africa = world[world['continent'] == 'Africa']
 
-# Mapping 'Africa Region' to all African countries
 african_countries = [
     'Algeria', 'Angola', 'Benin', 'Botswana', 'Burkina Faso', 'Burundi', 'Cabo Verde', 'Cameroon', 'Central African Republic',
     'Chad', 'Comoros', 'Congo', 'Democratic Republic of the Congo', 'Djibouti', 'Egypt', 'Equatorial Guinea', 'Eritrea',
@@ -168,57 +220,140 @@ african_countries = [
     'Sudan', 'Tanzania', 'Togo', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe'
 ]
 
-# Create a count of commitments by country
 country_counts = [filtered_df['geography'].str.contains(c, case=False, na=False).sum() for c in african_countries]
 country_counts_df = pd.DataFrame({'country': african_countries, 'Number of commitments relevant': country_counts})
 
 africa = africa.merge(country_counts_df, left_on='name', right_on='country', how='left').infer_objects(copy=False)
 
-col1, col2 = st.columns([1.5, 1])
-with col1:
-    # Display commitments
-    st.subheader("List of commitments:")
-    for index, row in filtered_df.iterrows():
-            expander_html = f"""
-            <details>
-                <summary class="streamlit-expanderHeader">{row['commName']} - {row['entity']}</summary>
-                <div class="streamlit-expanderContent">
-                    <div class="commitment-container">
-                        <div class="commitment-title">{row['commName']}</div>
-                        <div class="commitment-entity">{row['entity']}</div>
-                        <div class="commitment-details">
-                            <strong>Type:</strong> {row['type']}<br>
-                            <strong>Theme:</strong> {row['themes']}<br>
-                            <strong>Subtheme:</strong> {row['subthemes']}<br><br><br>
-                            <strong>Geography:</strong> {row['geography']}<br>
-                            <strong>Funding (USD):</strong> {row['amntUSD']}<br><br><br>
-                            <strong>Details:</strong> {row['details']}<br>
-                            <strong>Source:</strong> {row['src']}<br>
-                            <strong>Updates:</strong> {row['upd']}
-                        </div>
-                    </div>
-                </div>
-            </details>
-            """
-            st.markdown(expander_html, unsafe_allow_html=True)
+# Calculate total money pledged in filtered group, and number of commitments
+filtered_money_pledged = filtered_df['amntUSD'].sum()
+total_commitments = len(filtered_df)
 
-with col2:
-    fig_map = px.choropleth(
-        africa,
-        geojson=africa.geometry,
-        locations=africa.index,
-        color='Number of commitments relevant',
-        hover_name='name',
-        color_continuous_scale='Blues',
-    )
-    fig_map.update_layout(coloraxis_showscale=False, showlegend=False)
-    fig_map.update_geos(fitbounds="locations", visible=False, projection_type="mercator")
+# Plotting the charts
+fig_map = px.choropleth(
+    africa,
+    geojson=africa.geometry,
+    locations=africa.index,
+    color='Number of commitments relevant',
+    hover_name='name',
+    color_continuous_scale='Blues',
+)
+fig_map.update_layout(coloraxis_showscale=False, showlegend=False)
+fig_map.update_geos(fitbounds="locations", visible=False, projection_type="mercator")
+
+fig_type = px.pie(type_counts_df, names='Type', values='Number of commitments', color='Type', 
+                color_discrete_map={'Financial': 'green', 'Political': 'orange', 'In-kind': 'brown'})
+
+fig_theme = px.pie(theme_counts_df, names='Theme', values='Number of commitments', color='Theme',
+                color_discrete_map={'Manufacturing': 'royalblue', 'Regulatory': 'red', 'Clinical trials': 'purple'})
+
+fig_type.update_traces(textposition='inside', textinfo='percent+label')
+fig_type.update_layout(showlegend=False)
+
+fig_theme.update_traces(textposition='inside', textinfo='percent+label')
+fig_theme.update_layout(showlegend=False)
+
+fig_money = px.bar(
+    x=['Total money pledged', 'Money pledged (after filters applied)'],
+    y=[total_money_pledged, filtered_money_pledged],
+    labels={'x': '', 'y': 'USD'},
+    color_discrete_map={'total_money_pledged': 'grey', 'filtered_money_pledged': 'green'},
+    orientation='h'
+)
+
+# Display layout
+left_col, right_col = st.columns([1, 1])
+
+with left_col:
     st.plotly_chart(fig_map, use_container_width=True)
 
-    fig_type = px.pie(type_counts_df, names='Type', values='Number of commitments', title='Number of commitments by type:', color='Type', 
-                    color_discrete_map={'Financial': 'green', 'Political': 'orange', 'In-kind': 'brown'})
-    st.plotly_chart(fig_type, use_container_width=True)
+with right_col:
+    with st.container():
+        top_right_col1, top_right_col2 = st.columns(2)
+        with top_right_col1:
+            st.markdown(f"<div class='under-titles'> COMMITMENT TYPES: </div>", unsafe_allow_html=True)
+            st.plotly_chart(fig_type, use_container_width=True, container_props={"className": "chart-container"})
+        with top_right_col2:
+            st.markdown(f"<div class='under-titles'> COMMITMENT THEMES: </div>", unsafe_allow_html=True)
+            st.plotly_chart(fig_theme, use_container_width=True, container_props={"className": "chart-container"})
     
-    fig_theme = px.pie(theme_counts_df, names='Theme', values='Number of commitments', title='Number of commitments by theme:', color='Theme',
-                    color_discrete_map={'Manufacturing': 'royalblue', 'Regulatory': 'red', 'Clinical trials': 'purple'})
-    st.plotly_chart(fig_theme, use_container_width=True)
+    with st.container():
+        bottom_right_col1, bottom_right_col2 = st.columns(2)
+        with bottom_right_col1:
+            st.markdown(f"<div class='under-titles'> FUNDING COMMITTED: </div>", unsafe_allow_html=True)
+            st.plotly_chart(fig_money, use_container_width=True, container_props={"className": "chart-container"})
+        with bottom_right_col2:
+            st.markdown(f"<div class='under-titles'> NUMBER OF COMMITMENTS LOGGED: </div><br><div class='big-number'>{total_commitments}</div>", unsafe_allow_html=True)
+
+# Divider
+st.markdown("---")
+
+# Display commitments
+st.subheader("List of commitments:")
+for index, row in filtered_df.iterrows():
+    st.markdown(f"""
+        <div class="commitment-header">
+                <div class="commitment-header-left">
+                    <div class="commitment-maker-type"> {row['entityType']}</div>
+                    <div class="line"></div>
+                    <br>
+                    <div class="commitment-title">{row['entity']}</div>
+                </div>
+                <div class="commitment-header-right">
+                    <div class="commitment-date"> COMMITMENT DATE: {row['date']}</div>
+                    <div class="line"></div>
+                    <br>
+                    <div class="commitment-title">{row['commName']}</div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    with st.expander(f"{row['header']}"):
+        st.markdown(f"""
+        <div class="commitment-card">
+            <div class="commitment-info">
+                <div class="info-item">
+                    <div class="info-subitem">
+                        <span class="info-icon">👤</span>
+                        <div class="under-titles"> THEME: </div> 
+                        {row['themes']}
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-subitem">
+                        <span class="info-icon">🤝</span>
+                        <div class="under-titles"> TYPE: </div> 
+                        {row['type']}
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-subitem">
+                        <span class="info-icon">🏭</span> 
+                        <div class="under-titles"> SUBTHEME: </div> 
+                        {row['subthemes']}
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-subitem">
+                        <span class="info-icon">🌍</span>
+                        <div class="under-titles"> {row['geography']} </div>
+                    </div>
+                </div>
+                <div><br></div>
+                <div class="info-item">
+                    <div class="info-subitem">
+                        <span class="info-icon">💰</span>
+                        <div class="under-titles"> {row['USD_display']}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="details-header">DETAILS</div>
+            <div class="details-content">
+                <p>{row['details']}</p>
+                <p><strong>OTHER PARTNERS INVOLVED:</strong> {row.get('partners', 'N/A')}</p>
+                <p><strong>UPDATES:</strong> {row['upd']}</p>
+                <p><strong>SOURCE:</strong> <a href="{row['src']}" target="_blank">{row['src']}</a></p>
+            </div>
+            <div class="submit-update">SUBMIT AN UPDATE</div>
+        </div>
+        """, unsafe_allow_html=True)
