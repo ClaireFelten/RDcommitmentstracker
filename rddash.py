@@ -183,7 +183,6 @@ else:
     print("The DataFrame does not have a column named 'amntUSD'.")
 
     
-total_money_pledged = df['amntUSD'].sum()
 df['header'] = "DETAILS"
 
 # Custom CSS and JavaScript for styling
