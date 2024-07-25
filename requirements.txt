@@ -2,7 +2,3 @@ streamlit
 pandas
 plotly
 geopandas
-os
-base64
-pathlib
-warnings
