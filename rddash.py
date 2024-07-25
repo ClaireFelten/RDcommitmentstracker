@@ -172,6 +172,20 @@ def add_money_icon(value):
 #df['USD_display'] = df['amntUSD'].apply(lambda x: f"${x/1000000000:.2f} billion USD" if x > 1000000000 else (
 #                                        f"${x/1000000:.2f} million USD" if x > 1000000 else (
 #                                        f"${x/1000:.2f} thousand USD" if x > 1000 else "")))
+
+if 'amntUSD' in df.columns:
+    data_type = df['amntUSD'].dtypes
+    print(f"The data type of 'amntUSD' column is: {data_type}") 
+    
+    df['amntUSD'] = df['amntUSD'].fillna(0)
+    total_money_pledged = df['amntUSD'].sum()
+    
+    else:
+        print("The 'amntUSD' column contains non-numeric data.")
+else:
+    print("The DataFrame does not have a column named 'amntUSD'.")
+
+    
 total_money_pledged = df['amntUSD'].sum()
 df['header'] = "DETAILS"
 
