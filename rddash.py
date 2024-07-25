@@ -527,7 +527,7 @@ fig_theme.update_layout(showlegend=False)
 fig_entType.update_layout(showlegend=False)
 
 fig_money = px.bar(
-    x=[total_money_pledged_formatted, filtered_money_pledged_formatted],
+    x=[total_money_pledged, filtered_money_pledged],
     y=['Total pledged', 'Amount pledged (with filters)'],
     orientation='h',
     color=['Total money pledged', 'Amount pledged (with filters)'],
@@ -536,8 +536,7 @@ fig_money = px.bar(
 
 fig_money.update_traces(
     texttemplate="%{y}: $%{x:.2f}",
-    #text=[f'Total money pledged: ${format_number(total_money_pledged)}',
-    #      f'Money pledged (after filters applied): ${format_number(filtered_money_pledged)}'],
+    text=[f'Total money pledged: ${format_number(total_money_pledged)}',f'Money pledged (after filters applied): ${format_number(filtered_money_pledged)}'],
     textposition='inside'
     )
 
