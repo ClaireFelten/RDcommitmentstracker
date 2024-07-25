@@ -423,7 +423,6 @@ if selected_entity != "All":
     
 # Display overall count of filtered commitments
 st.sidebar.divider()
-st.sidebar.header(f"Number of commitments: {len(filtered_df)}")
 
 # Pie charts for commitments
 type_counts = [filtered_df['type'].str.contains(t, case=False, na=False).sum() for t in typelist]
@@ -514,7 +513,8 @@ fig_theme = px.pie(theme_counts_df, names='Theme', values='Number of commitments
 fig_entType = px.pie(entType_counts_df, names='Type of entity making commitment', values='Number of commitments', color='Type of entity making commitment',
                      hole=0.2)  # Add hole parameter for donut chart
 
-fig_type.update_traces(textposition='inside', textinfo='label+percent')
+fig_type.update_traces(textposition='inside', textinfo='label+percent',
+                          hovertemplate="Type: %{names}<br>Number of commitments that have %{names} elements: %{values}")
 #fig_type.for_each_trace(lambda t: t.update(text=[f"{get_pie_icons(label,icons_pies)}{label}" for label in t.labels]))
 
 fig_theme.update_traces(textposition='inside', textinfo='label+percent')
