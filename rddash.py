@@ -516,15 +516,15 @@ fig_entType = px.pie(entType_counts_df, names='Type of entity making commitment'
                      hole=0.25)  # Add hole parameter for donut chart
 
 fig_type.update_traces(textposition='inside', textinfo='label+percent',
-                          hovertemplate="Number of commitments that have<br><strong> %{label} </strong><br>elements:<br> <strong>%{value}</strong> (%{percent})")
+                          hovertemplate="Number of commitments that have<br>%{label} elements:<br>%{value} (%{percent})")
 #fig_type.for_each_trace(lambda t: t.update(text=[f"{get_pie_icons(label,icons_pies)}{label}" for label in t.labels]))
 
 fig_theme.update_traces(textposition='inside', textinfo='label+percent',
-                            hovertemplate="Number of commitments related to<br><strong> %{label}</strong>:<br><strong>%{value}</strong> (%{percent})")
+                            hovertemplate="Number of commitments related to<br>%{label}:<br>%{value} (%{percent})")
 #fig_theme.for_each_trace(lambda t: t.update(text=[f"{get_pie_icons(label,icons_pies)}{label}" for label in t.labels]))
 
 fig_entType.update_traces(textposition='inside', textinfo='label+percent',
-                            hovertemplate="Number of <strong>%{label}</strong> entities making commitments:<br><strong>%{value}</strong> (%{percent})")
+                            hovertemplate="Number of %{label} entities making commitments:<br>%{value} (%{percent})")
 fig_type.update_layout(showlegend=False)
 fig_theme.update_layout(showlegend=False)
 fig_entType.update_layout(showlegend=False)
