@@ -463,18 +463,19 @@ with st.container():
             <div class='under-titles'> ABOUT THIS DASHBOARD: <br></div>
                 <p> Using this tool, you can explore information about commitments made by governments and private entities 
                 worldwide to <strong>improving the end-to-end R&D ecosystem in Africa.</strong> 
-                On the left side of the page, you can filter by: 
-                * <strong>type of commitment</strong> (financial, political, or in-kind); 
-                * <strong>broad topic theme(s) that the commitment focuses on</strong> (manufacturing, regulations, or clinical trials); 
-                * <strong>a more specific list of detailed theme areas</strong>; and 
-                * the <strong>entity who made the commitment</strong>.
-                * You can also search all the commitments. </p>
+                On the left side of the page, you can filter by: <strong>type of commitment</strong> (financial, political, or in-kind); 
+                <strong>broad topic theme(s) that the commitment focuses on</strong> (manufacturing, regulations, or clinical trials); 
+                <strong>a more specific list of detailed theme areas</strong>; and the <strong>entity who made the commitment</strong>.
+                You can also search all the commitments. </p>
                 <p>Scroll down for the full list of commitments. Click on "DETAILS" under each commitment to see more information. </p>
         </div>
+        <div class="details-content"></div>
                 """, unsafe_allow_html=True)
     st.link_button('SUBMIT INFORMATION ON A COMMITMENT', 'https://www.path.org', 
                    help='Help us keep this tracker up-to-date by letting us know about a new commitment not already included.', 
                    type="secondary", disabled=False, use_container_width=True)
+    st.markdown('<div class="details-content"></div>', unsafe_allow_html=True)
+    st.markdown('<div><p></p></div>', unsafe_allow_html=True)
 
 # Plotting the charts
 fig_map = px.choropleth(
