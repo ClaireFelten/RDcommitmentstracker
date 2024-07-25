@@ -391,10 +391,12 @@ if len(entlist) == 1:
 # Sidebar for filters
 st.sidebar.title("Filter Commitments")
 selected_type = st.sidebar.selectbox("Type of Commitment", ["All"] + typelist)
-selected_theme = st.sidebar.selectbox("Theme", ["All"] + themelist)
-selected_subtheme = st.sidebar.selectbox("Subtheme Area", ["All"] + stlist)
+selected_theme = st.sidebar.selectbox("Topic theme", ["All"] + themelist)
+selected_subtheme = st.sidebar.selectbox("Topic subtheme", ["All"] + stlist)
+st.sidebar.divider()
 selected_entityType = st.sidebar.selectbox("Type of entity making commitment", ["All"] + entTypelist)
 selected_entity = st.sidebar.selectbox("Entity making commitment", ["All"] + entlist)
+st.sidebar.divider()
 search_query = st.sidebar.text_input("Search", "")
 
 # Filter data based on sidebar inputs
@@ -499,7 +501,7 @@ fig_map.update_geos(
     projection_type="mercator", 
 )
 fig_map.update_traces(
-    hovertemplate="Country: %{hovertext}<br>Number of commitments that impact this country: %{z}"
+    hovertemplate="Country: %{hovertext}<br>Number of commitments<br>that impact this country:<br> %{z}"
 )
 
 fig_type = px.pie(type_counts_df, names='Type', values='Number of commitments', color='Type', 
@@ -514,14 +516,15 @@ fig_entType = px.pie(entType_counts_df, names='Type of entity making commitment'
                      hole=0.25)  # Add hole parameter for donut chart
 
 fig_type.update_traces(textposition='inside', textinfo='label+percent',
-                          hovertemplate="Type: %{label}<br>Number of commitments that<br>have %{label} elements:<br> %{value}")
+                          hovertemplate="Number of commitments that have<br><strong> %{label} </strong><br>elements:<br> <strong>%{value}</strong> (%{percent})")
 #fig_type.for_each_trace(lambda t: t.update(text=[f"{get_pie_icons(label,icons_pies)}{label}" for label in t.labels]))
 
-fig_theme.update_traces(textposition='inside', textinfo='label+percent')
+fig_theme.update_traces(textposition='inside', textinfo='label+percent',
+                            hovertemplate="Number of commitments related to<br><strong> %{label}</strong>:<br><strong>%{value}</strong> (%{percent})")
 #fig_theme.for_each_trace(lambda t: t.update(text=[f"{get_pie_icons(label,icons_pies)}{label}" for label in t.labels]))
 
-fig_entType.update_traces(textposition='inside', textinfo='label+percent')
-
+fig_entType.update_traces(textposition='inside', textinfo='label+percent',
+                            hovertemplate="Number of <strong>%{label}</strong> entities making commitments:<br><strong>%{value}</strong> (%{percent})")
 fig_type.update_layout(showlegend=False)
 fig_theme.update_layout(showlegend=False)
 fig_entType.update_layout(showlegend=False)
@@ -530,13 +533,14 @@ fig_money = px.bar(
     x=[total_money_pledged, filtered_money_pledged],
     y=['Total pledged', 'Amount pledged (with filters)'],
     orientation='h',
-    color=['Total money pledged', 'Amount pledged (with filters)'],
-    color_discrete_map={'Total money pledged': '#056E23', 'Amount pledged (with filters)': '#1EAF5F'}
+    color=['Total pledged', 'Amount pledged (with filters)'],
+    color_discrete_map={'Total pledged': '#056E23', 'Amount pledged (with filters)': '#1EAF5F'}
 )
 
 fig_money.update_traces(
-    texttemplate="%{y}: $%{x:,.0f}",
-    textposition='inside'
+    texttemplate="%{y}:<br>$%{x:,.0f}",
+    textposition='inside',
+    hovertemplate=("%{y}:<br>$%{x:,.0f})
     )
 
 fig_money.update_layout(
@@ -586,7 +590,7 @@ with l2_mid_col:
 
 with l2_right_col:
     #st.markdown('<div class="chart-box">', unsafe_allow_html=True)
-    st.markdown(f"<div class='pie-chart-title under-titles'> ENTITIES MAKING COMMITMENTS: </div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='pie-chart-title under-titles'>COMMITTING ENTITIES:</div>", unsafe_allow_html=True)
     st.plotly_chart(fig_entType, use_container_width=True, container_props={"className": "pie-chart-container"})
     #st.markdown('</div>', unsafe_allow_html=True)
 
