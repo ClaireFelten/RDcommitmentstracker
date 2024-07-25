@@ -237,12 +237,12 @@ st.markdown("""
         margin-right: 15px
     }
     .commitment-subheader-left {
-        flex: 1;
+        flex: 2;
         margin-right: 5px;
         padding: 5px;
     }
     .commitment-subheader-middle {
-        flex: 3;
+        flex: 4;
         padding: 5px;
         margin-left: 30px
     }
