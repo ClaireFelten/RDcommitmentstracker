@@ -504,17 +504,17 @@ fig_map.update_traces(
 
 fig_type = px.pie(type_counts_df, names='Type', values='Number of commitments', color='Type', 
                 color_discrete_map={'Financial': '#1EAF5F', 'Political': '#ED7D31', 'In-kind': '#464F60'},
-                hole=0.2)  # Add hole parameter for donut chart
+                hole=0.25)  # Add hole parameter for donut chart
 
 fig_theme = px.pie(theme_counts_df, names='Theme', values='Number of commitments', color='Theme',
                 color_discrete_map={'Manufacturing': '#37379C', 'Regulatory': '#A8001E', 'Clinical trials': '008C9B'},
-                hole=0.2)  # Add hole parameter for donut chart
+                hole=0.25)  # Add hole parameter for donut chart
 
 fig_entType = px.pie(entType_counts_df, names='Type of entity making commitment', values='Number of commitments', color='Type of entity making commitment',
-                     hole=0.2)  # Add hole parameter for donut chart
+                     hole=0.25)  # Add hole parameter for donut chart
 
 fig_type.update_traces(textposition='inside', textinfo='label+percent',
-                          hovertemplate="Type: %{names}<br>Number of commitments that have %{names} elements: %{values}")
+                          hovertemplate="Type: %{label}<br>Number of commitments that have %{label} elements: %{value}")
 #fig_type.for_each_trace(lambda t: t.update(text=[f"{get_pie_icons(label,icons_pies)}{label}" for label in t.labels]))
 
 fig_theme.update_traces(textposition='inside', textinfo='label+percent')
