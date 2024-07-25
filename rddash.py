@@ -237,7 +237,7 @@ st.markdown("""
         margin-right: 15px
     }
     .commitment-subheader-left {
-        flex: 2;
+        flex: 1;
         margin-right: 5px;
         padding: 5px;
     }
@@ -501,7 +501,7 @@ fig_map.update_geos(
     projection_type="mercator", 
 )
 fig_map.update_traces(
-    hovertemplate="Country: %{hovertext}<br>Number of commitments<br>that impact this country:<br> %{z}"
+    hovertemplate="Country: %{hovertext}<br><br>Number of commitments<br>that impact this country:<br> %{z}"
 )
 
 fig_type = px.pie(type_counts_df, names='Type', values='Number of commitments', color='Type', 
@@ -524,7 +524,7 @@ fig_theme.update_traces(textposition='inside', textinfo='label+percent',
 #fig_theme.for_each_trace(lambda t: t.update(text=[f"{get_pie_icons(label,icons_pies)}{label}" for label in t.labels]))
 
 fig_entType.update_traces(textposition='inside', textinfo='label+percent',
-                            hovertemplate="Number of %{label} entities making commitments:<br>%{value} (%{percent})")
+                            hovertemplate="Number of %{label} entities<br>making commitments:<br>%{value} (%{percent})")
 fig_type.update_layout(showlegend=False)
 fig_theme.update_layout(showlegend=False)
 fig_entType.update_layout(showlegend=False)
