@@ -535,7 +535,7 @@ fig_money = px.bar(
 )
 
 fig_money.update_traces(
-    texttemplate="%{y}: $%{x:,.2f}",
+    texttemplate="%{y}: $%{x:,.f}",
     textposition='inside'
     )
 
