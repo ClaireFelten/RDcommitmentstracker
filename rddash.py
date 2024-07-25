@@ -153,13 +153,11 @@ df = pd.DataFrame(data)
 
 def format_number(value):
     if value >= 1_000_000_000:
-        return f"${value / 1_000_000_000:.2f} billion"
+        return f"${value / 1_000_000_000:.2f} B"
     elif value >= 1_000_000:
-        return f"${value / 1_000_000:.2f} million"
-    elif value >= 1_000:
-        return f"${value / 1_000:.2f} thousand"        
+        return f"${value / 1_000_000:.2f} M"
     elif value >= 1:
-        return f"${value:,}"
+        return f"${value:,}"        
     else:
         return ""
 
@@ -250,8 +248,8 @@ st.markdown("""
     .commitment-subheader-right {
         flex: 1;
         padding: 5px;
-        margin-right: 10px
-        margin-left: 0px
+        margin-right: 5px
+        margin-left: 10px
     }
     .commitment-title {
         font-size: 1.2em;
