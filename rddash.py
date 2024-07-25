@@ -179,6 +179,7 @@ if 'amntUSD' in df.columns:
     
     df['amntUSD'] = df['amntUSD'].fillna(0)
     total_money_pledged = df['amntUSD'].sum()
+    total_money_pledged_formatted = format_number(total_money_pledged)
 else:
     print("The DataFrame does not have a column named 'amntUSD'.")
 
@@ -454,6 +455,7 @@ africa = africa.merge(country_counts_df, left_on='name', right_on='country', how
 
 # Calculate total money pledged in filtered group, and number of commitments
 filtered_money_pledged = filtered_df['amntUSD'].sum()
+filtered_money_pledged_formatted = format_number(filtered_money_pledged)
 total_commitments = len(filtered_df)
 
 # Display layout
@@ -461,21 +463,20 @@ with st.container():
     st.markdown(f"""
         <div class="details-content"> 
             <div class='under-titles'> ABOUT THIS DASHBOARD: <br></div>
-                <p> Using this tool, you can explore information about commitments made by governments and private entities 
-                worldwide to <strong>improving the end-to-end R&D ecosystem in Africa.</strong> 
-                On the left side of the page, you can filter by: <strong>type of commitment</strong> (financial, political, or in-kind); 
+                <p>Using this tool, you can explore information about commitments made by governments and private entities 
+                worldwide to <strong>improving the end-to-end R&D ecosystem in Africa.</strong></p>
+                <p>On the left side of the page, you can filter by: <strong>type of commitment</strong> (financial, political, or in-kind); 
                 <strong>broad topic theme(s) that the commitment focuses on</strong> (manufacturing, regulations, or clinical trials); 
                 <strong>a more specific list of detailed theme areas</strong>; and the <strong>entity who made the commitment</strong>.
                 You can also search all the commitments. </p>
                 <p>Scroll down for the full list of commitments. Click on "DETAILS" under each commitment to see more information. </p>
         </div>
-        <div class="details-content"></div>
+        <div class="under-titles"></div>
                 """, unsafe_allow_html=True)
     st.link_button('SUBMIT INFORMATION ON A COMMITMENT', 'https://www.path.org', 
                    help='Help us keep this tracker up-to-date by letting us know about a new commitment not already included.', 
                    type="secondary", disabled=False, use_container_width=True)
-    st.markdown('<div class="details-content"></div>', unsafe_allow_html=True)
-    st.markdown('<div><p></p></div>', unsafe_allow_html=True)
+    st.markdown('<div><p> </p></div>', unsafe_allow_html=True)
 
 # Plotting the charts
 fig_map = px.choropleth(
@@ -526,7 +527,7 @@ fig_theme.update_layout(showlegend=False)
 fig_entType.update_layout(showlegend=False)
 
 fig_money = px.bar(
-    x=[total_money_pledged, filtered_money_pledged],
+    x=[total_money_pledged_formatted, filtered_money_pledged_formatted],
     y=['Total pledged', 'Amount pledged (with filters)'],
     orientation='h',
     color=['Total money pledged', 'Amount pledged (with filters)'],
