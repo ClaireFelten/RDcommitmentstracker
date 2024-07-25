@@ -169,9 +169,9 @@ def add_money_icon(value):
     else:
         return ''
     
-df['USD_display'] = df['amntUSD'].apply(lambda x: f"${x/1000000000:.2f} billion USD" if x > 1000000000 else (
-                                        f"${x/1000000:.2f} million USD" if x > 1000000 else (
-                                        f"${x/1000:.2f} thousand USD" if x > 1000 else "")))
+#df['USD_display'] = df['amntUSD'].apply(lambda x: f"${x/1000000000:.2f} billion USD" if x > 1000000000 else (
+#                                        f"${x/1000000:.2f} million USD" if x > 1000000 else (
+#                                        f"${x/1000:.2f} thousand USD" if x > 1000 else "")))
 total_money_pledged = df['amntUSD'].sum()
 df['header'] = "DETAILS"
 
