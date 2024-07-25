@@ -540,7 +540,7 @@ fig_money = px.bar(
 fig_money.update_traces(
     texttemplate="%{y}:<br>$%{x:,.0f}",
     textposition='inside',
-    hovertemplate=("%{y}:<br>$%{x:,.0f})
+    hovertemplate=("%{y}:<br>$%{x:,.0f}")
     )
 
 fig_money.update_layout(
