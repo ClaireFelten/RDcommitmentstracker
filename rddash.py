@@ -239,10 +239,11 @@ st.markdown("""
     .commitment-subheader-left {
         flex: 2;
         margin-right: 5px;
+        margin-left: 10px;
         padding: 5px;
     }
     .commitment-subheader-middle {
-        flex: 4;
+        flex: 3;
         padding: 5px;
         margin-left: 30px
     }
@@ -250,6 +251,7 @@ st.markdown("""
         flex: 1;
         padding: 5px;
         margin-right: 10px
+        margin-left: 0px
     }
     .commitment-title {
         font-size: 1.2em;
