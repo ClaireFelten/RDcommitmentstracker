@@ -179,9 +179,6 @@ if 'amntUSD' in df.columns:
     
     df['amntUSD'] = df['amntUSD'].fillna(0)
     total_money_pledged = df['amntUSD'].sum()
-    
-    else:
-        print("The 'amntUSD' column contains non-numeric data.")
 else:
     print("The DataFrame does not have a column named 'amntUSD'.")
 
