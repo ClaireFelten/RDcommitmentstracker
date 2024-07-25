@@ -535,7 +535,7 @@ fig_money = px.bar(
 )
 
 fig_money.update_traces(
-    text=[f'Total money pledged: ${format_number(total_money_pledged)}',f'Money pledged (after filters applied): ${format_number(filtered_money_pledged)}'],
+    text=[f'Total money pledged: ${total_money_pledged_formatted}',f'Money pledged (after filters applied): ${total_money_pledged_formatted}'],
     textposition='inside'
     )
 
