@@ -39,13 +39,6 @@ except Exception as e:
 
 data = pd.read_csv(csv_path)
 
-hide_github_icon = """
-#GithubIcon {
-  visibility: hidden;
-}
-"""
-st.markdown(hide_github_icon, unsafe_allow_html=True)
-
 # image and icon loading
 #def img_to_base64(img_path):
 #    with open(img_path, "rb") as img_file:
