@@ -435,7 +435,7 @@ type_counts_df = pd.DataFrame({'Type': typelist, 'Number of commitments': type_c
 theme_counts_df = pd.DataFrame({'Theme': themelist, 'Number of commitments': theme_counts})
 entType_counts_df = pd.DataFrame({'Type of entity making commitment': entTypelist, 'Number of commitments': entType_counts})
 
-url = "https://github.com/datasets/geo-boundaries-world-110m/raw/master/countries.geojson"
+url = "https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson"
 world = gpd.read_file(url)
 
 africa = world[world['continent'] == 'Africa']
