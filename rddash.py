@@ -342,7 +342,7 @@ st.markdown("""
         font-weight: bold;
     }
     .big-number {
-        font-size: 6em;
+        font-size: clamp(2.5rem, 8vw, 6rem);
         text-align: center;
     }
     .chart-container {
