@@ -344,6 +344,10 @@ st.markdown("""
     .big-number {
         font-size: clamp(2.5rem, 8vw, 6rem);
         text-align: center;
+        text-align: center;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
     }
     .chart-container {
         padding: 20px !important;
