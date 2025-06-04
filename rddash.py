@@ -446,17 +446,17 @@ africa = world[world['continent'] == 'Africa']
 
 african_countries = [
     'Algeria', 'Angola', 'Benin', 'Botswana', 'Burkina Faso', 'Burundi', 'Cabo Verde', 'Cameroon', 'Central African Republic',
-    'Chad', 'Comoros', 'Republic of the Congo', 'Democratic Republic of the Congo', 'Djibouti', 'Egypt', 'Equatorial Guinea', 'Eritrea',
-    'Eswatini', 'Ethiopia', 'Gabon', 'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Ivory Coast', 'Kenya', 'Lesotho', 'Liberia',
+    'Chad', 'Comoros', 'Republic of Congo', 'Democratic Republic of the Congo', 'Djibouti', 'Egypt', 'Equatorial Guinea', 'Eritrea',
+    'Eswatini', 'Ethiopia', 'Gabon', 'Gambia', 'Ghana', 'Guinea', 'Guinea-Bissau', 'Côte d'Ivoire', 'Kenya', 'Lesotho', 'Liberia',
     'Libya', 'Madagascar', 'Malawi', 'Mali', 'Mauritania', 'Mauritius', 'Morocco', 'Mozambique', 'Namibia', 'Niger', 'Nigeria',
     'Rwanda', 'Sao Tome and Principe', 'Senegal', 'Seychelles', 'Sierra Leone', 'Somalia', 'South Africa', 'South Sudan', 
-    'Sudan', 'Tanzania', 'Togo', 'Tunisia', 'Uganda', 'Zambia', 'Zimbabwe'
+    'Sudan', 'Tanzania', 'Togo', 'Tunisia', 'Uganda', 'Western Sahara', 'Zambia', 'Zimbabwe'
 ]
 
 country_counts = [filtered_df['geography'].str.contains(c, case=False, na=False).sum() for c in african_countries]
 country_counts_df = pd.DataFrame({'country': african_countries, 'Number of commitments relevant': country_counts})
 
-africa = africa.merge(country_counts_df, left_on='name_long', right_on='country', how='left').infer_objects(copy=False)
+africa = africa.merge(country_counts_df, left_on='geounit', right_on='country', how='left').infer_objects(copy=False)
 
 # Calculate total money pledged in filtered group, and number of commitments
 filtered_money_pledged = filtered_df['amntUSD'].sum()
