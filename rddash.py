@@ -456,7 +456,7 @@ african_countries = [
 country_counts = [filtered_df['geography'].str.contains(c, case=False, na=False).sum() for c in african_countries]
 country_counts_df = pd.DataFrame({'country': african_countries, 'Number of commitments relevant': country_counts})
 
-africa = africa.merge(country_counts_df, left_on='name', right_on='country', how='left').infer_objects(copy=False)
+africa = africa.merge(country_counts_df, left_on='name_long', right_on='country', how='left').infer_objects(copy=False)
 
 # Calculate total money pledged in filtered group, and number of commitments
 filtered_money_pledged = filtered_df['amntUSD'].sum()
