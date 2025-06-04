@@ -478,7 +478,7 @@ with st.container():
         </div>
         <div class="under-titles"></div>
                 """, unsafe_allow_html=True)
-    st.link_button('SUBMIT INFORMATION ON A COMMITMENT', 'https://www.path.org', 
+    st.link_button('SUBMIT INFORMATION ON A COMMITMENT', 'https://forms.office.com/Pages/ResponsePage.aspx?id=Tz_KKWdtpUmgAeHbSCUnFy2BeXFp3KhHtfbSDqh1w0tUOU81T0NBUEZUMkFHMkdGTExTU0JLWEMwUS4u', 
                    help='Help us keep this tracker up-to-date by letting us know about a new commitment not already included.', 
                    type="secondary", disabled=False, use_container_width=True)
     st.markdown('<div><p> </p></div>', unsafe_allow_html=True)
