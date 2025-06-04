@@ -456,6 +456,12 @@ african_countries = [
 country_counts = [filtered_df['geoOld'].str.contains(c, case=False, na=False).sum() for c in african_countries]
 country_counts_df = pd.DataFrame({'country': african_countries, 'Number of commitments relevant': country_counts})
 
+colorMin = 0
+if country_counts_df['Number of commitments relevant'].min() > 3:
+    colorMin = country_counts_df['Number of commitments relevant'].min() - 2
+    
+colorMax = country_counts_df['Number of commitments relevant'].max()
+
 africa = africa.merge(country_counts_df, left_on='geounit', right_on='country', how='left').infer_objects(copy=False)
 
 # Calculate total money pledged in filtered group, and number of commitments
@@ -492,7 +498,7 @@ fig_map = px.choropleth(
     hover_name='name',
     color_continuous_scale='Blues',
     hover_data={'Number of commitments relevant': True},
-    range_color=(24, 42)
+    range_color=(colorMin, colorMax)
 )
 fig_map.update_layout(
     coloraxis_showscale=False, 
