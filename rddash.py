@@ -691,4 +691,4 @@ for index, row in filtered_df.iterrows():
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.link_button('SUBMIT AN UPDATE', 'https://www.path.org', help=None, type="primary", disabled=False, use_container_width=True)
+        st.link_button('SUBMIT AN UPDATE', 'https://forms.office.com/Pages/ResponsePage.aspx?id=Tz_KKWdtpUmgAeHbSCUnFy2BeXFp3KhHtfbSDqh1w0tUOU81T0NBUEZUMkFHMkdGTExTU0JLWEMwUS4u', help=None, type="primary", disabled=False, use_container_width=True)
