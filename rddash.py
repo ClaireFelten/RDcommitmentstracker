@@ -492,6 +492,7 @@ fig_map = px.choropleth(
     hover_name='name',
     color_continuous_scale='Blues',
     hover_data={'Number of commitments relevant': True},
+    range_color=(24, 42)
 )
 fig_map.update_layout(
     coloraxis_showscale=False, 
