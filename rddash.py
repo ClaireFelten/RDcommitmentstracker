@@ -409,7 +409,8 @@ filtered_df = df.copy()
 if search_query:
     filtered_df = filtered_df[
         filtered_df['commName'].str.contains(search_query, case=False, na=False) |
-        filtered_df['details'].str.contains(search_query, case=False, na=False)
+        filtered_df['details'].str.contains(search_query, case=False, na=False) |
+        filtered_df['entity'].str.contains(search_query, case=False, na=False)
     ]
 
 if selected_type != "All":
@@ -425,7 +426,10 @@ if selected_entityType != "All":
     filtered_df = filtered_df[filtered_df['entityType'].str.contains(selected_entityType, case=False, na=False)]
 
 if selected_entity != "All":
-    filtered_df = filtered_df[filtered_df['entity'].str.contains(selected_entity, case=False, na=False)]
+    filtered_df = filtered_df[
+        filtered_df['entity'].str.contains(selected_entity, case=False, na=False) |
+        filtered_df['partners'].str.contains(selected_entity, case=False, na=False)
+    ]
     
 # Display overall count of filtered commitments
 st.sidebar.divider()
