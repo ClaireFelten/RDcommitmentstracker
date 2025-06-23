@@ -410,7 +410,9 @@ if search_query:
     filtered_df = filtered_df[
         filtered_df['commName'].str.contains(search_query, case=False, na=False) |
         filtered_df['details'].str.contains(search_query, case=False, na=False) |
-        filtered_df['entity'].str.contains(search_query, case=False, na=False)
+        filtered_df['entity'].str.contains(search_query, case=False, na=False) |
+        filtered_df['upd'].str.contains(search_query, case=False, na=False) |
+        filtered_df['partners'].str.contains(search_query, case=False, na=False) 
     ]
 
 if selected_type != "All":
